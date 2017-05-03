@@ -6,3 +6,4 @@ src/config/config.production.js
 config/config.js
 npm-debug.log
 .jshintrc
+/.eslintrc
