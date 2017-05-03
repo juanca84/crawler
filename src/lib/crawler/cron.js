@@ -1,7 +1,7 @@
 const
 	config = require('../../config/config')(),
 	guardar = require('./guardar'),
-	obtenerEnlaces = require('./crawler');
+	crawler = require('./crawler');
 	mongoClient = require('mongodb').MongoClient;
 
 const CronJob = require('cron').CronJob;
@@ -40,10 +40,10 @@ function obtenerEnlacesSitios() {
 function Procesar(pDB, pSitios, pModelo){
 	console.log("Iniciando el proceso de los sitios");
   const promesas = pSitios.map(pItem => {
-		return obtenerEnlaces.obtener(pItem)
+		return crawler.obtener(pItem)
 		.then(pHtml => {
 			console.log('=============imprimir pHtml');
-			console.log(pHtml);
+			//console.log(pHtml);
 			guardar.guardar(pModelo,pHtml).then(() => {
 				return Promise.resolve(pHtml);
 			});

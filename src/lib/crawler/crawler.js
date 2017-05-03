@@ -16,7 +16,7 @@ function obtener(pItem){
         $ = cheerio.load(body),
         tabla = cheerio.load($('body').toString());
       let enlace = '';
-      let fecha; ;
+      let fecha;
 
       const enlaces = [];
       tabla('a').each((k, elem) => {
@@ -25,16 +25,31 @@ function obtener(pItem){
           enlace = t('a').attr('href');
           enlaces.push({
             dominio: pItem.url,
-            url: enlace,
+            url: convertirEnlaceAbsoluto(pItem.url, enlace),
             fecha: new Date()});
         }
       });
       console.log(enlaces.length);
-      console.log('vamos a devolver los enlaces');
-      return resolve(enlaces);
+      return resolve([...new Set(enlaces)]);
     });
   });
 }
+
+function enlaceAbsoluto(url){
+  const expr = /^http/;
+  return expr.test(url);
+}
+
+function convertirEnlaceAbsoluto(pDominio, url){
+  if(enlaceAbsoluto(url)){
+    nuevaUrl = url;
+  }
+  else{
+    nuevaUrl = pDominio + url;
+  }
+  return nuevaUrl;
+}
+
 module.exports = {
   obtener
 };
