@@ -40,13 +40,9 @@ function obtenerEnlacesSitios() {
 function Procesar(pDB, pSitios, pModelo){
 	console.log("Iniciando el proceso de los sitios");
   const promesas = pSitios.map(pItem => {
-		return crawler.obtener(pItem)
+		return crawler.procesarURL(pItem.url, pItem.url, pDB, pModelo, 1)
 		.then(pHtml => {
-			console.log('=============imprimir pHtml');
-			//console.log(pHtml);
-			guardar.guardar(pModelo,pHtml).then(() => {
-				return Promise.resolve(pHtml);
-			});
+			console.log(pHtml);
 		})
 		.catch(pError => {
 			return Promise.reject(pError);
